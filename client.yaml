@@ -1,0 +1,72 @@
+# IRC server connection details
+#
+hostname:               'irc.alphachat.net'
+tls_client_cert:        'client.crt'
+tls_client_cert_key:    'client.key'
+password:               'redacted'
+username:               'harbard'
+realname:               'AlphaChat Network Security Service'
+nickname:               'Harbard'
+oper_username:          'Harbard'
+oper_password:          'redacted'
+connect_modes:          '+QRgi-x'
+away_message:           'I am a robot; your messages will be forever ignored.'
+
+
+# The channel that log messages get sent to
+#
+log_channel:            '#ssyslog'
+
+
+# Optional:  The message colour to put on messages we send to the log channel
+#
+message_colour:         13
+
+
+# The regular expression that indicates OpenSSL has been upgraded
+#
+# Must contain a "hostname" match group
+#
+upgrade_pattern:        '^\x03[0-9][0-9]\[OpenSSL\] Package reinstalled or upgraded on host (?P<hostname>[^ ]+)\x03$'
+
+
+# The command to execute when a message matches the upgrade pattern, and the hostname parsed
+# by the pattern (and optionally transformed by the map below) is our own IRCd server name.
+#
+# May contain a "{server_name}" format token which will be replaced by the IRCd server name.
+#
+local_rehash_command:   'REHASH SSLD'
+
+
+# The command to execute when a message matches the upgrade pattern, and the hostname parsed
+# by the pattern (and optionally transformed by the map below) is NOT our own IRCd server name.
+#
+# Must contain a "{server_name}" format token which will be replaced by the IRCd server name.
+#
+remote_rehash_command:  'REHASH SSLD {server_name}'
+
+
+# A dictionary of hostnames to accept and optionally transform
+#
+# Maps a hostname to a set of IRCd server names (separated by whitespace)
+#
+# This is useful if your IRCds do not have the same configured server name as
+# their machine's hostname, or if you have many IRCds on one machine that you
+# wish to rehash all at once when OpenSSL on that machine is reinstalled or
+# upgraded.
+#
+# If the hostname is not in the map, messages for that host are ignored
+#
+# If the IRCd server name is empty, uses the hostname as the IRCd server name
+#
+server_name_map:
+  'bastion.alphachat.net': ''
+  'hub-eu1.alphachat.net': ''
+  'hub-eu2.alphachat.net': ''
+  'hub-na1.alphachat.net': ''
+  'hub-na2.alphachat.net': ''
+  'irc-ca1.alphachat.net': ''
+  'irc-de1.alphachat.net': ''
+  'irc-us1.alphachat.net': ''
+  'irc-us2.alphachat.net': ''
+  'int.alphachat.net':     'webchat.alphachat.net'
